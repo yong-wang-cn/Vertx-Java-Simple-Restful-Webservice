@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<body>
+
+<div ng-app="app" ng-controller="HttpPostController">
+    <p><textarea  name="emails" ng-model="emails" rows="10" cols="64"></textarea>
+    <button ng-click="SendData()">Submit</button>
+    Total Number of Unique Gmail Address: {{ UGA }}
+</div>
+
+<script>
+    var app = angular.module("app", []);
+    app.controller('HttpPostController', function($scope, $http) {
+
+        $scope.SendData = function () {
+            var data = "";
+            var config = {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                }
+            }
+
+            $http.post('/uga?emails=' + encodeURIComponent($scope.emails), data, config).then(function (response) {
+                $scope.UGA = response.data;
+            }, function (response) {
+
+            });
+
+        };
+    });
+</script>
+
+</body>
+</html>
